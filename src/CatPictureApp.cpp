@@ -5,24 +5,41 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+const int SURFACE_WIDTH = 1024;
+const int SURFACE_HEIGHT = 1024;
+
 class CatPictureApp : public AppBasic {
   public:
 	void setup();
 	void mouseDown( MouseEvent event );	
 	void update();
 	void draw();
+	void drawRect(int x,int y,int height, int width, int red, int green, int blue);
+	void drawGradientRect(int x,int y,int height, int width, int red1, int green1, int blue1,int red2, int green2, int blue2);
+	void prepareSettings(Settings* settings);
 
 private:
-	float brightness1;
-	float brightness2;
-	float brightness3;
+	Surface* mySurface_;
+	int frameNumber_;
 };
 
-void CatPictureApp::setup()
-{
-	brightness1=0.0f;
-	brightness2=0.0f;
-	brightness3=0.0f;
+void CatPictureApp::prepareSettings(Settings* settings){
+	(*settings).setWindowSize(640,480);
+	(*settings).setResizable(false);
+}
+
+void CatPictureApp::setup(){
+	mySurface_ = new Surface(SURFACE_WIDTH,SURFACE_HEIGHT,false);
+	frameNumber_=0;
+	
+}
+
+void CatPictureApp::drawRect(){
+	
+}
+
+void CatPictureApp::drawGradientRect(){
+	
 }
 
 void CatPictureApp::mouseDown( MouseEvent event )
@@ -31,26 +48,16 @@ void CatPictureApp::mouseDown( MouseEvent event )
 
 void CatPictureApp::update()
 {
-	brightness1=brightness1 + 0.01f;
-	if(brightness1 >1.0f){
-		brightness1 = 0.0f;
-	}
+	frameNumber_++;
 
-	brightness2=brightness2 + 0.005f;
-	if(brightness2 >1.0f){
-		brightness2 = 0.0f;
-	}
+	uint8_t* dataArray = (*mySurface_).getData();
 
-	brightness3=brightness3 + 0.001f;
-	if(brightness3 >1.0f){
-		brightness3 = 0.0f;
-	}
+	
 }
 
 void CatPictureApp::draw()
 {
-	// clear out the window with black
-	gl::clear( Color( brightness1, brightness2, brightness3 ) ); 
+	 
 }
 
 CINDER_APP_BASIC( CatPictureApp, RendererGl )
